@@ -46,15 +46,22 @@ async def write_to_file(file_name: str, animal_counts: dict[str, int]) -> None:
 async def main() -> None:
     animals_counts = {}
     url = DOMAIN + PREFIX
-    while url:
-        async with ClientSession() as session:
-            html_text = await fetch_page(session, url)
-            animals = await parse_animals(html_text)
-            next_url = await extract_next_url(html_text)
-            new_counts = await count_animals(animals)
-            animals_counts.update(new_counts)
-        url = DOMAIN + next_url if next_url else None
-        await write_to_file(NAME_FILE, animals_counts)
+    async with ClientSession() as session:
+        while url:
+            try:
+                html_text = await fetch_page(session, url)
+                animals = await parse_animals(html_text)
+                next_url = await extract_next_url(html_text)
+
+                new_counts = await count_animals(animals)
+                for letter, count in new_counts.items():
+                    animals_counts[letter] = animals_counts.get(letter, 0) + count
+
+                url = DOMAIN + next_url if next_url else None
+            except Exception as e:
+                print(f"Произошла ошибка: {e}")
+                break
+            await write_to_file(NAME_FILE, animals_counts)
 
 
 if __name__ == "__main__":
