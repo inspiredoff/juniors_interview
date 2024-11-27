@@ -1,0 +1,1 @@
+тестовое задание на позицию python beckend developer junior
