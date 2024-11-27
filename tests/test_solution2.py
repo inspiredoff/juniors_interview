@@ -109,7 +109,6 @@ class TestAnimalScraper(unittest.IsolatedAsyncioTestCase):
             mock_open.return_value.__aenter__.return_value.write.assert_any_call('Л,2\n')
             mock_open.return_value.__aenter__.return_value.write.assert_any_call('М,2\n')
 
-
     @patch('task2.solution.fetch_page')
     @patch('task2.solution.parse_animals')
     @patch('task2.solution.extract_next_url')
@@ -124,7 +123,7 @@ class TestAnimalScraper(unittest.IsolatedAsyncioTestCase):
         mock_fetch_page.return_value = '<html>example</html>'
         mock_parse_animals.side_effect = [["Лиса", "Медведь", "Лев", "Мышь"], None]
         mock_extract_next_url.side_effect = ["/next-page", None]
-        mock_count_animals.animal_counts={"Л": 2, "М": 2}
+        mock_count_animals.animal_counts = {"Л": 2, "М": 2}
         mock_count_animals.animal_counts
         mock_parse_animals.return_value = []
         await main()

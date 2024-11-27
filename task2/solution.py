@@ -2,7 +2,7 @@ import asyncio
 import aiofiles
 from aiohttp import ClientSession
 from lxml import html
-import task2.config as conf
+import task2.Solution.src.config as conf
 
 DOMAIN = conf.domain
 PREFIX = conf.prefix
